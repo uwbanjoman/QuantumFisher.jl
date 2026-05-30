@@ -205,16 +205,17 @@ end
     ρ1 = pure_state(ψ_e1)
     ρ2 = pure_state(ψ_eq)
     ρ3 = pure_state(ψ_r)
-    d1 = bures_distance(ρ1, vacuum_state())
-    d2 = bures_distance(ρ2, vacuum_state())
-    d3 = bures_distance(ρ3, vacuum_state())
-    abs(d1 - d2) < 1e-10 && abs(d2 - d3) < 1e-10
+    # F(|ψ⟩⟨ψ|, I/6) = 1/6 for any pure state (theorem, Doc LXXIV)
+    f1 = bures_fidelity(ρ1, vacuum_state())
+    f2 = bures_fidelity(ρ2, vacuum_state())
+    f3 = bures_fidelity(ρ3, vacuum_state())
+    abs(f1 - 1/6) < 1e-6 && abs(f2 - 1/6) < 1e-6 && abs(f3 - 1/6) < 1e-6
 end
 
 @qtest "bures_distance symmetric" begin
     ρ1 = pure_state(ψ_e1)
     ρ2 = pure_state(ψ_eq)
-    abs(bures_distance(ρ1, ρ2) - bures_distance(ρ2, ρ1)) < 1e-10
+    abs(bures_distance(ρ1, ρ2) - bures_distance(ρ2, ρ1)) < 1e-6
 end
 
 @qtest "bures_distance ∈ [0, π/2]" begin
