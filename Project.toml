@@ -2,3 +2,9 @@ name = "QuantumFisher"
 uuid = "47d8548b-b9e1-4bbd-8536-e432cb05a894"
 version = "0.1.0"
 authors = ["Jan Bouwman "]
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[compat]
+LinearAlgebra = "1.12.0"
