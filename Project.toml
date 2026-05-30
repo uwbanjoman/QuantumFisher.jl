@@ -1,1 +1,4 @@
 name = "QuantumFisher"
+uuid = "47d8548b-b9e1-4bbd-8536-e432cb05a894"
+version = "0.1.0"
+authors = ["Jan Bouwman "]
