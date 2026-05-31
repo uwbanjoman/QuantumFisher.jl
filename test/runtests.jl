@@ -381,8 +381,8 @@ println()
 end
 
 @qtest "kk_hamiltonian is Hermitian" begin
-    H = kk_hamiltonian()
-    maximum(abs.(H - H')) < 1e-12
+    H_kk = kk_hamiltonian()
+    maximum(abs.(H_kk - H_kk')) < 1e-12
 end
 
 @qtest "kk_spectrum returns sorted real values" begin
@@ -466,3 +466,4 @@ else
     println("  $fail test(s) failed ✗")
 end
 println("="^65)
+
