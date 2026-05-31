@@ -265,9 +265,9 @@ println()
 H = Matrix(kk_hamiltonian())
 ρ0 = pure_state(ψ_e1)
 
-@qtest "von_neumann_rhs is anti-Hermitian" begin
+@qtest "von_neumann_rhs is Hermitian (dρ/dt = dρ/dt†)" begin
     rhs = von_neumann_rhs(ρ0, H)
-    maximum(abs.(rhs + rhs')) < 1e-10
+    maximum(abs.(rhs - rhs')) < 1e-10
 end
 
 @qtest "von_neumann_rhs has trace 0" begin
