@@ -579,7 +579,7 @@ Above this threshold, the self-modelling map is a contraction
 (Banach fixed point theorem, Document LXXXIV).
 """
 function is_conscious(ρ::AbstractMatrix; threshold::Real=1/25)
-    return consciousness_measure(ρ) > threshold
+    return fisher_integration(ρ) > threshold
 end
 
 """
