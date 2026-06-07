@@ -55,7 +55,7 @@ export
     kk_mass_gap,
 
     # Consciousness
-    phi_measure,
+    fisher_integration,
     is_conscious,
     self_model_convergence,
     banach_contraction_factor
@@ -518,9 +518,9 @@ kk_mass_gap() = 9/4
 # ════════════════════════════════════════════════════════════════════
 
 """
-    phi_measure(ρ) → Float64
+    fisher_integration(ρ) → Float64
  
-Compute the consciousness measure Φ = 𝓕_cross / 𝓕_total.
+Compute the fisher_integration Φ = 𝓕_cross / 𝓕_total.
  
 𝓕_cross = 𝓕[ρ̂] - 𝓕[ρ̂_colour] - 𝓕[ρ̂_isospin]
 measures cross-sector Fisher correlations in ℂ⁶ = ℂ³⊗ℂ².
@@ -529,7 +529,7 @@ Consciousness threshold: Φ > τ² = 0.04  (from BGK stability)
  
 # Documents LXXVI, LXXVII, XCVII, XCVIII
 """
-function phi_measure(ρ::AbstractMatrix)
+function fisher_integration(ρ::AbstractMatrix)
     n = size(ρ, 1)
     # Generators
     G_x = zeros(ComplexF64, n, n); G_x[1,2]=1/√2; G_x[2,1]=1/√2
