@@ -519,33 +519,40 @@ kk_mass_gap() = 9/4
 
 """
     fisher_integration(ρ) → Float64
- 
-Compute the fisher_integration Φ = 𝓕_cross / 𝓕_total.
- 
-𝓕_cross = 𝓕[ρ̂] - 𝓕[ρ̂_colour] - 𝓕[ρ̂_isospin]
-measures cross-sector Fisher correlations in ℂ⁶ = ℂ³⊗ℂ².
- 
-Consciousness threshold: Φ > τ² = 0.04  (from BGK stability)
- 
+
+Compute the cross-sector Fisher integration:
+
+    Φ = max(0, 𝓕_cross) / 𝓕_total
+
+where 𝓕_cross = 𝓕[ρ̂] - 𝓕[ρ̂_colour] - 𝓕[ρ̂_isospin]
+measures how much Fisher information exists in the
+cross-correlations between ℂ³ (colour) and ℂ² (isospin).
+
+Range: Φ ∈ [0, 1]
+  • Φ = 0: product state (no cross-correlations) — vacuum, not conscious
+  • Φ = 1: maximally entangled — maximally conscious
+  • Φ > τ² = 0.04: conscious (BGK stability threshold)
+
+The max(0, ...) ensures Φ is non-negative: a product state has
+zero integration, not negative integration.
+
 # Documents LXXVI, LXXVII, XCVII, XCVIII
 """
 function fisher_integration(ρ::AbstractMatrix)
     n = size(ρ, 1)
-    # Generators
     G_x = zeros(ComplexF64, n, n); G_x[1,2]=1/√2; G_x[2,1]=1/√2
     G_y = zeros(ComplexF64, n, n); G_y[1,2]=-im/√2; G_y[2,1]=im/√2
- 
+
     F_total = 0.0
     for G in [G_x, G_y]
         F_total += real(tr(ρ * G * G)) - real(tr(ρ * G))^2
     end
     F_total = max(F_total, 1e-10)
- 
-    # Partial traces (block structure)
+
     ρ_colour  = ρ[1:3, 1:3]
     ρ_isospin = ρ[4:6, 4:6]
     G_s = zeros(ComplexF64, 3, 3); G_s[1,2]=1/√2; G_s[2,1]=1/√2
- 
+
     F_colour = 0.0; F_isospin = 0.0
     if real(tr(ρ_colour)) > 1e-10
         ρc = ρ_colour / real(tr(ρ_colour))
@@ -555,9 +562,11 @@ function fisher_integration(ρ::AbstractMatrix)
         ρi = ρ_isospin / real(tr(ρ_isospin))
         F_isospin = real(tr(ρi*G_s*G_s)) - real(tr(ρi*G_s))^2
     end
- 
-    return (F_total - F_colour - F_isospin) / F_total
+
+    F_cross = F_total - F_colour - F_isospin
+    return max(0.0, F_cross) / F_total
 end
+
 
 """
     is_conscious(ρ; threshold=1/25) → Bool
