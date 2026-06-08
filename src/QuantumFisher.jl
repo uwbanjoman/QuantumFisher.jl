@@ -36,6 +36,8 @@ export
     bures_fidelity,
     bures_geodesic,
     bures_angle,
+    bures_metric,
+    bures_norm_sq
 
     # Von Neumann evolution
     von_neumann_rhs,
@@ -324,6 +326,34 @@ function bures_geodesic(ρ1::AbstractMatrix, ρ2::AbstractMatrix,
         path[i] = Matrix{ComplexF64}(ρ_t / real(tr(ρ_t)))
     end
     return path
+end
+
+"""
+    bures_metric(ρ, X, Y) → Float64
+ 
+Compute the Bures metric g_Bures(X, Y) = (1/2) Re Tr(X G_ρ[Y])
+where G_ρ[Y] solves the Lyapunov equation.
+ 
+The Bures metric is the internal spacetime metric of 𝒟₆.
+It is proportional to the quantum Fisher information metric:
+g_Bures = (1/4) × QFI.
+ 
+# Documents
+XCVIII: Bures curvature K = 0.0556 > 0
+XCIX:   Internal Einstein equation uses Bures metric
+"""
+function bures_metric(ρ::AbstractMatrix, X::AbstractMatrix, Y::AbstractMatrix)
+    G = lyapunov(ρ, Y)
+    return real(tr(X * G)) / 2
+end
+ 
+"""
+    bures_norm_sq(ρ, X) → Float64
+ 
+Compute |X|²_Bures = g_Bures(X, X).
+"""
+function bures_norm_sq(ρ::AbstractMatrix, X::AbstractMatrix)
+    return bures_metric(ρ, X, X)
 end
 
 # ════════════════════════════════════════════════════════════════════
