@@ -37,7 +37,7 @@ export
     bures_geodesic,
     bures_angle,
     bures_metric,
-    bures_norm_sq
+    bures_norm_sq,
 
     # Von Neumann evolution
     von_neumann_rhs,
