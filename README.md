@@ -119,7 +119,7 @@ Zero free parameters.
 
 | Function | Description |
 |----------|-------------|
-| `consciousness_measure(ρ)` | Φ = Tr(𝓕_cross)/Tr(𝓕) |
+| `fisher_integration(ρ)` | Φ = Tr(𝓕_cross)/Tr(𝓕) |
 | `is_conscious(ρ)` | Φ > τ² = 1/25? |
 | `banach_contraction_factor(ρ)` | L = 1 - 𝓕/𝓕_max |
 | `self_model_convergence(ρ, n)` | Banach iteration distance |
@@ -147,7 +147,7 @@ purity(ρ_t) ≈ purity(ρ)
 # → 1.0  (eigenvalues preserved)  ✓
 
 # Consciousness threshold Φ > τ² = 0.04
-consciousness_measure(pure_state(ComplexF64[1,1,0,0,0,0]/sqrt(2)))
+fisher_integration(pure_state(ComplexF64[1,1,0,0,0,0]/sqrt(2)))
 # → 0.25 > 0.04  ✓
 ```
 
